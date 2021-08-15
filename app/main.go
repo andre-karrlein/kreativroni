@@ -9,7 +9,10 @@ import (
 
 func main() {
 	app.Route("/", &home{})
-	app.Route("/products", &products{})
+	app.Route("/shop", &shop{})
+	app.Route("/about_me", &about{})
+	app.Route("/legal_notice", &legal_notice{})
+	app.Route("/privacy_policy", &privacy_policy{})
 
 	app.RunWhenOnBrowser()
 
@@ -18,9 +21,9 @@ func main() {
 		Title:       "KreatiVroni",
 		Description: "Kreatives von Vroni",
 		Icon: app.Icon{
-			Default:    "/web/images/ak_logo_192.png", // Specify default favicon.
-			Large:      "/web/images/ak_logo_512.png", // Specify large favicon
-			AppleTouch: "/web/images/ak_logo_192.png", // Specify icon on IOS devices.
+			Default:    "/web/images/logo_192.png", // Specify default favicon.
+			Large:      "/web/images/logo_512.png", // Specify large favicon
+			AppleTouch: "/web/images/logo_192.png", // Specify icon on IOS devices.
 		},
 		Styles: []string{
 			//"https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css",

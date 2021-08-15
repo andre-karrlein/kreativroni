@@ -4,18 +4,18 @@ import (
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
 )
 
-type home struct {
+type about struct {
 	app.Compo
 }
 
-func (home *home) Render() app.UI {
+func (about *about) Render() app.UI {
 	return app.Body().Body(
 		app.Header().Body(
 			&navbar{},
 			app.Div().Body(
 				app.Div().Class("row").Body(
 					app.Div().Class("text-content").Body(
-						app.H2().Class("title").Text("Willkomen"),
+						app.H2().Class("title").Text("Über mich"),
 					),
 				),
 			),
