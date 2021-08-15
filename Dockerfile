@@ -19,7 +19,7 @@ RUN mkdir -p web/css
 RUN mkdir -p web/images
 
 COPY web/css/main.css web/css/.
-#COPY web/images/ak_logo_*.png web/images/
+COPY web/images/logo_*.png web/images/
 COPY --from=builder /go/build/kreativroni .
 COPY --from=builder /go/build/web/app.wasm web/.
 
