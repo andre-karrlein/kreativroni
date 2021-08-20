@@ -33,6 +33,9 @@ func main() {
 		ThemeColor: "#3a8277",
 	})
 
+	http.HandleFunc("/api/v1/product", productsHandler)
+	http.HandleFunc("/api/v1/product/save", saveHandler)
+
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
