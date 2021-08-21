@@ -30,6 +30,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 		name := r.FormValue("name")
 		image := r.FormValue("image")
 		link := r.FormValue("link")
+		log.Println("Name: " + name + " Image: " + image + " Link: " + link)
 
 		article := product{
 			Name:  name,
