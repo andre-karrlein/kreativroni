@@ -11,7 +11,7 @@ body{
   height: 100vh;
   width: 100%;
   display: flex;
-  background-image: linear-gradient( 135deg, #98c1bf  10%, #3a8277 100%);
+  background-image: linear-gradient( 135deg, #99c1c0  10%, #3a8277 100%);
   background-attachment: fixed;
 }
 .shop-body {
@@ -37,12 +37,12 @@ body::after{
 body::before{
   clip-path: circle(30% at left 20%);
   opacity: 0.4;
-  background-image: linear-gradient( 135deg, #3a8277 10%, #98c1bf 100%);
+  background-image: linear-gradient( 135deg, #3a8277 10%, #99c1c0 100%);
 }
 body::after{
   opacity: 0.4;
   clip-path: circle(25% at right 80%);
-  background-image: linear-gradient( 135deg, #3a8277 10%, #98c1bf 100%);
+  background-image: linear-gradient( 135deg, #3a8277 10%, #99c1c0 100%);
 }
 header{
   height: 85vh;
@@ -101,7 +101,7 @@ header .navbar{
   transition: all 0.3s ease;
 }
 .navbar .menu a:hover{
-  color: #f6c4ce;
+  color: #f6c4cf;
 }
  header .text-content{
    width: 40%;
@@ -194,7 +194,7 @@ header .navbar{
   transform: translate(-20px,-40px) rotate(-25deg) scale(1.4);
 }
 .container .card .imgBx h2 {
-  color: #f6c4ce;
+  color: #f6c4cf;
   font-weight: 600;
 }
 .container .card .content {
@@ -218,7 +218,7 @@ header .navbar{
   top: 10px;
   display: inline-block;
   padding: 12px 30px;
-  background: #f6c4ce;
+  background: #f6c4cf;
   border-radius: 40px;
   font-weight: 600;
   letter-spacing: 1px;
