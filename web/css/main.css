@@ -243,7 +243,7 @@ header .navbar{
     padding: 15px 5px;
   }
   .navbar .menu {
-    margin-top: -15%;
+    margin-top: -12%;
     display: block;
     z-index: 15;
   }
@@ -267,10 +267,10 @@ header .navbar{
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 80%;
+    margin-top: 40%;
   } 
 }
-@media (max-width:410px) {
+@media (max-width:450px) {
   body {
     height: 100%; 
   }
