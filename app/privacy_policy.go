@@ -16,6 +16,7 @@ func (privacy_policy *privacy_policy) Render() app.UI {
 				app.Div().Class("row").Body(
 					app.Div().Class("text-content").Body(
 						app.H2().Class("title").Text("Datenschutz"),
+						app.P().Text("Some text"),
 					),
 				),
 			),

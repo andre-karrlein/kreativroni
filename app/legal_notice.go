@@ -16,6 +16,7 @@ func (legal_notice *legal_notice) Render() app.UI {
 				app.Div().Class("row").Body(
 					app.Div().Class("text-content").Body(
 						app.H2().Class("title").Text("Impressum"),
+						app.P().Text("Some text"),
 					),
 				),
 			),
