@@ -31,9 +31,6 @@ func (navbar *navbar) Render() app.UI {
 			app.Li().Body(
 				app.A().Href("/legal_notice").Text("Impressum"),
 			),
-			app.Li().Body(
-				app.A().Href("/privacy_policy").Text("Datenschutz"),
-			),
 		),
 	)
 }
