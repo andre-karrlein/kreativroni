@@ -109,7 +109,7 @@ header .navbar{
  }
 .navbar .logo a {
   display: inline-block;
-  z-index: 14;
+  z-index: 15;
 }
 .text-content h2{
   font-size: 27px;
@@ -168,7 +168,7 @@ header .navbar{
 .container .card {
   position: relative;
   width: 300px;
-  height: 400px;
+  height: 450px;
   margin: 20px 40px;
   display: flex;
   justify-content: center;
@@ -193,9 +193,10 @@ header .navbar{
   max-width: 100%;
   margin: 0 0 20px;
   transition: 0.5s ease-in-out;
+  transform: scale(0.9);
 }
 .container .card:hover .imgBx img {
-  transform: translate(-20px,-40px) rotate(-25deg) scale(1.4);
+  transform: translate(-20px,-40px) rotate(-25deg) scale(1.1);
 }
 .container .card .imgBx h2 {
   color: #f6c4cf;
@@ -219,7 +220,7 @@ header .navbar{
 }
 .container .card .content a {
   position: relative;
-  top: 10px;
+  top: 30px;
   display: inline-block;
   padding: 12px 30px;
   background: #f6c4cf;
@@ -268,7 +269,7 @@ header .navbar{
     align-items: center;
     flex-wrap: wrap;
     margin-top: 40%;
-  } 
+  }
 }
 @media (max-width:450px) {
   body {
@@ -293,5 +294,26 @@ header .navbar{
     align-items: center;
     flex-wrap: wrap;
     margin-top: 90%;
+  }
+  .container .card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    margin: 20px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+  }
+  .container .card .imgBx img {
+    max-width: 100%;
+    margin: 0 0 20px;
+    transition: 0.5s ease-in-out;
+    transform: scale(0.8);
+  }
+  .container .card:hover .imgBx img {
+    transform: translate(-20px,-40px) rotate(-25deg) scale(1.0);
   }
 }
