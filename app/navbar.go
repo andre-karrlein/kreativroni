@@ -26,7 +26,7 @@ func (navbar *navbar) Render() app.UI {
 				app.A().Target("_blank").Href("https://www.instagram.com/kreativroni/?hl=de").Text("Instagram"),
 			),
 			app.Li().Body(
-				app.A().Href("/etsy").Text("Etsy"),
+				app.A().Href("https://www.etsy.com/de/shop/kreatiVroni").Text("Etsy"),
 			),
 			app.Li().Body(
 				app.A().Href("/legal_notice").Text("Impressum"),
