@@ -14,7 +14,6 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-./web/app.wasm
-./kreativroni
-./kreativroni.json
+web/app.wasm
+kreativroni
 kreativroni.json
