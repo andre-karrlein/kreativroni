@@ -66,8 +66,11 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
-	log.Println("Delete something")
-	id := strings.TrimPrefix(r.URL.Path, "/api/v1/product/")
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	id := r.FormValue("id")
 
 	log.Println(id)
 
