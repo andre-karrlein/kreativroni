@@ -47,6 +47,9 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "DELETE" {
+		deleteHandler(w, r)
+	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
@@ -59,12 +62,24 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(productsJSON)
 }
 
-func loadProducts() []product {
+func deleteHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	id := strings.TrimPrefix(r.URL.Path, "/api/v1/product/")
+
+	deleteProduct(id)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("OK"))
+}
+
+func loadProducts() []productWithId {
 	ctx := context.Background()
 	client := createClient(ctx)
 	defer client.Close()
 
-	var products []product
+	var products []productWithId
 
 	iter := client.Collection("products").Documents(ctx)
 	for {
@@ -77,9 +92,12 @@ func loadProducts() []product {
 		}
 
 		var p product
+		id := doc.Ref.ID
 		doc.DataTo(&p)
 
-		products = append(products, p)
+		productStructure := productWithId{ID: id, Product: p}
+
+		products = append(products, productStructure)
 	}
 
 	return products
@@ -91,6 +109,18 @@ func saveProduct(product product) {
 	defer client.Close()
 
 	_, _, err := client.Collection("products").Add(ctx, product)
+	if err != nil {
+		// Handle any errors in an appropriate way, such as returning them.
+		log.Printf("An error has occurred: %s", err)
+	}
+}
+
+func deleteProduct(id string) {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	_, err := client.Collection("products").Doc(id).Delete(ctx)
 	if err != nil {
 		// Handle any errors in an appropriate way, such as returning them.
 		log.Printf("An error has occurred: %s", err)

@@ -5,3 +5,8 @@ type product struct {
 	Link  string `firestore:"link,omitempty"`
 	Image string `firestore:"image,omitempty"`
 }
+
+type productWithId struct {
+	ID      string  `json:"id"`
+	Product product `json:"product"`
+}
