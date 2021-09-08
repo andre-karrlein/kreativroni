@@ -9,16 +9,14 @@ type legal_notice struct {
 }
 
 func (legal_notice *legal_notice) Render() app.UI {
-	return app.Body().Body(
-		app.Div().Class("main-body").Body(
-			app.Header().Body(
-				&navbar{},
-				app.Div().Body(
-					app.Div().Class("row").Body(
-						app.Div().Class("text-content").Body(
-							app.H2().Class("title").Text("Impressum"),
-							app.P().Text("Some text"),
-						),
+	return app.Body().Class("main-body").Body(
+		app.Header().Body(
+			&navbar{},
+			app.Div().Body(
+				app.Div().Class("row").Body(
+					app.Div().Class("text-content").Body(
+						app.H2().Class("title").Text("Impressum"),
+						app.P().Text("Some text"),
 					),
 				),
 			),
