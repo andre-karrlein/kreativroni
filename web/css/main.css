@@ -59,11 +59,12 @@ header{
 header .navbar{
   margin: auto;
   width: 100%;
-  padding: 35px 50px;
   border-radius: 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 .shop-header {
   width: 90%;
@@ -83,6 +84,8 @@ header .navbar{
   backdrop-filter: blur(5px);
   z-index: 9;
   border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 .navbar .menu{
   display: flex;
@@ -190,12 +193,12 @@ header .navbar{
 }
 .container .card .imgBx img {
   max-width: 100%;
-  margin: 0 0 20px;
+  margin: 0;
   transition: 0.5s ease-in-out;
   transform: scale(0.9);
 }
 .container .card:hover .imgBx img {
-  transform: translate(-20px,-40px) rotate(-15deg) scale(1.1);
+  transform: translate(-20px,-40px) rotate(-5deg) scale(1.1);
 }
 .container .card .imgBx h2 {
   color: #f6c4cf;
@@ -347,7 +350,7 @@ header .navbar{
     transform: scale(0.8);
   }
   .container .card:hover .imgBx img {
-    transform: translate(-20px,-40px) rotate(-15deg) scale(1.0);
+    transform: translate(-20px,-40px) rotate(-5deg) scale(1.0);
   }
 }
 @media (max-width:375px) {
@@ -398,6 +401,6 @@ header .navbar{
     transform: scale(0.8);
   }
   .container .card:hover .imgBx img {
-    transform: translate(-20px,-40px) rotate(-15deg) scale(1.0);
+    transform: translate(-20px,-40px) rotate(-5deg) scale(1.0);
   }
 }
