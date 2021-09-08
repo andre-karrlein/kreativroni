@@ -9,7 +9,7 @@ type legal_notice struct {
 }
 
 func (legal_notice *legal_notice) Render() app.UI {
-	return app.Body().Class("main-body").Body(
+	return app.Body().Body(
 		app.Header().Body(
 			&navbar{},
 			app.Div().Body(
