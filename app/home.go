@@ -9,7 +9,7 @@ type home struct {
 }
 
 func (home *home) Render() app.UI {
-	return app.Body().Body(
+	return app.Body().Class("main-body").Body(
 		app.Header().Body(
 			&navbar{},
 			app.Div().Body(

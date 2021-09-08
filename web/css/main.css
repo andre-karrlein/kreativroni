@@ -8,11 +8,13 @@
   transition: all 0.3s ease;
 }
 body{
-  height: 100vh;
   width: 100%;
   display: flex;
   background-image: linear-gradient( 135deg, #99c1c0  10%, #3a8277 100%);
   background-attachment: fixed;
+}
+.main-body {
+  height: 100vh;
 }
 .shop-body {
   position: relative;
