@@ -71,7 +71,7 @@ header .navbar{
 .shop-header {
   width: 90%;
   height: 1vh;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 .shop-header .navbar{
   margin: auto;
@@ -165,7 +165,7 @@ header .navbar{
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 20%;
+  margin-top: 15%;
 }
 .container .card {
   position: relative;
