@@ -105,9 +105,19 @@ header .navbar{
 .navbar .menu a:hover{
   color: #f6c4cf;
 }
+.button{
+  color: #000;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.button:hover{
+  color: #f6c4cf;
+}
  header .text-content{
    width: 40%;
-   margin: 100px 0 0 50px ;
+   margin-top: -5%;
  }
 .navbar .logo a {
   display: inline-block;

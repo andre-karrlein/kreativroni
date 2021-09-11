@@ -16,7 +16,10 @@ func (home *home) Render() app.UI {
 				app.Div().Class("row").Body(
 					app.Div().Class("text-content").Body(
 						app.H2().Class("title").Text("Herzlich Willkommen"),
-						app.P().Text("auf meiner Website kreatiVroni.com. Ich freue mich sehr, dass du hier gelandet bist und dir meine kreativen Projekte ansiehst. Ich habe es im August 2021 endlich gewagt und einen kleinen Onlineshop eröffnet. Egal, ob ein Einkauf in meinem Shop, ein Feedback zur Website oder ein Herz auf Instagram, ich bin dir für jede Unterstützung sehr dankbar!"),
+						app.P().Text("auf meiner Website kreatiVroni.de. Ich freue mich sehr, dass du hier gelandet bist und dir meine kreativen Projekte ansiehst. Ich habe es im August 2021 endlich gewagt und einen kleinen Onlineshop eröffnet. Egal, ob ein Einkauf in meinem Shop, ein Feedback zur Website oder ein Herz auf Instagram, ich bin dir für jede Unterstützung sehr dankbar!"),
+					),
+					app.Div().Class("img-box").Body(
+						app.Img().Src("/web/images/logo_192.png"),
 					),
 				),
 			),

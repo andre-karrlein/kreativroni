@@ -20,13 +20,16 @@ func (navbar *navbar) Render() app.UI {
 				app.A().Href("/about_me").Text("Über mich"),
 			),
 			app.Li().Body(
+				app.A().Href("https://www.instagram.com/kreativroni/?hl=de").Text("Instagram"),
+			),
+			app.Li().Body(
 				app.A().Href("/shop").Text("Shop"),
 			),
 			app.Li().Body(
-				app.A().Target("_blank").Href("https://www.instagram.com/kreativroni/?hl=de").Text("Instagram"),
+				app.A().Href("https://www.etsy.com/de/shop/kreatiVroni").Text("Etsy"),
 			),
 			app.Li().Body(
-				app.A().Href("https://www.etsy.com/de/shop/kreatiVroni").Text("Etsy"),
+				app.A().Href("mailto:kreativroni@gmail.com").Text("Kontakt"),
 			),
 			app.Li().Body(
 				app.A().Href("/legal_notice").Text("Impressum"),
