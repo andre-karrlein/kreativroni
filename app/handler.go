@@ -48,6 +48,13 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "DELETE" {
+		authHeader := r.Header.Get("Authorization")
+		auth := strings.Split(authHeader, " ")
+		password := auth[1]
+
+		if !CheckAuth(password) {
+			w.WriteHeader(http.StatusUnauthorized)
+		}
 		deleteHandler(w, r)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -71,8 +78,6 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	if !present || len(id) == 0 {
 		fmt.Println("id not present")
 	}
-
-	log.Println(id[0])
 
 	deleteProduct(id[0])
 
