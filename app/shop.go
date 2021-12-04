@@ -47,19 +47,25 @@ func (shop *shop) OnNav(ctx app.Context) {
 }
 
 func (shop *shop) Render() app.UI {
-	return app.Body().Class("shop-body").Body(
-		app.Div().Class("shop-header").Body(
+	return app.Body().Class("bg-gradient-to-r from-green-200 to-green-500 p-0  pt-5 md:p-8 md:py-10").Body(
+		app.Div().Body(
 			&navbar{},
 		),
-		app.Div().Class("container").Body(
+		app.Div().Class("flex flex-wrap gap-8 justify-center items-center min-h-screen w-full").Body(
 			app.Range(shop.products).Slice(func(i int) app.UI {
-				return app.Div().Class("card").Body(
-					app.Div().Class("imgBx").Body(
-						app.Img().Src(shop.products[i].Image),
-						app.H2().Text(shop.products[i].Name),
+				return app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
+					app.Div().Class("flex-none w-44 relative").Body(
+						app.Img().Class("absolute inset-0 w-full h-full object-cover rounded-lg").Src(shop.products[i].Image),
 					),
-					app.Div().Class("content").Body(
-						app.A().Href(shop.products[i].Link).Text("Buy Now"),
+					app.Div().Class("flex-auto max-h-full pl-6").Body(
+						app.Div().Class("flex flex-wrap items-baseline").Body(
+							app.H1().Class("w-full flex-none font-semibold mb-2.5").Text(shop.products[i].Name),
+						),
+						app.Div().Class("flex space-x-3 mb-0 text-sm font-semibold").Body(
+							app.Div().Class("flex-auto flex space-x-3").Body(
+								app.A().Class("h-8 w-full flex items-center justify-center rounded-full text-black bg-pink-300").Href(shop.products[i].Link).Text("Zum Produkt"),
+							),
+						),
 					),
 				)
 			}),

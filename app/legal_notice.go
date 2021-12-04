@@ -9,13 +9,13 @@ type legal_notice struct {
 }
 
 func (legal_notice *legal_notice) Render() app.UI {
-	return app.Body().Body(
-		app.Header().Body(
-			&navbar{},
-			app.Div().Body(
-				app.Div().Class("row").Body(
-					app.Div().Class("text-content").Body(
-						app.H2().Class("title").Text("Impressum"),
+	return app.Body().Class("bg-gradient-to-r from-green-200 to-green-500 p-0 pt-5 md:p-8 md:py-10").Body(
+		&navbar{},
+		app.Div().Class("pt-0 md:pt-20").Body(
+			app.Figure().Class("bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl p-4 md:flex md:p-30").Body(
+				app.Div().Class("pt-6 md:p-8 text-center md:text-left space-y-4").Body(
+					app.H2().Class("text-xl font-bold title").Text("Impressum"),
+					app.Blockquote().Class("pt-5").Body(
 						app.P().Text("kreatiVroni"),
 						app.P().Text("Kreatives von Vroni"),
 						app.Br(),
