@@ -14,7 +14,7 @@ func (about *about) Render() app.UI {
 		app.Div().Class("pt-0 md:pt-20").Body(
 			app.Figure().Class("bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl p-4 md:flex md:p-30").Body(
 				app.Div().Class("pt-6 md:p-8 text-center md:text-left space-y-4").Body(
-					app.H2().Class("text-xl font-bold title").Text("Über mich"),
+					app.H2().Class("text-5xl font-bold title").Text("Über mich"),
 					app.Blockquote().Class("pt-5").Body(
 						app.P().Class("text-lg font-semibold").Text(
 							"Ich bin Vroni, 27 Jahre alt und wohne in Bayern im Berchtesgadener Land. Ich komme eigentlich aus Unterfranken, in der Nähe von Würzburg, habe dort Pädagogik und Philosophie studiert und arbeite jetzt in der Kinder- und Jugendarbeit. Den Online-Shop führe ich nebenberuflich und erfülle mir damit einen Traum, den ich schon seit mehreren Jahren habe. Ich liebe es kreativ zu sein und kann dabei die Zeit und alle Sorgen vergessen.",

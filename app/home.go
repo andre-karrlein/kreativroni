@@ -14,7 +14,7 @@ func (home *home) Render() app.UI {
 		app.Div().Class("pt-0 md:pt-20").Body(
 			app.Figure().Class("bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl p-4 md:flex md:p-30").Body(
 				app.Div().Class("pt-6 md:p-8 text-center md:text-left space-y-4").Body(
-					app.H2().Class("text-xl font-bold title").Text("Herzlich Willkommen"),
+					app.H2().Class("text-5xl font-bold title").Text("Herzlich Willkommen"),
 					app.Blockquote().Class("pt-5").Body(
 						app.P().Class("text-lg font-semibold").Text(
 							"auf meiner Website kreatiVroni.de. Ich freue mich sehr, dass du hier gelandet bist und dir meine kreativen Projekte ansiehst. Ich habe es im August 2021 endlich gewagt und einen kleinen Onlineshop eröffnet. Egal, ob ein Einkauf in meinem Shop, ein Feedback zur Website oder ein Herz auf Instagram, ich bin dir für jede Unterstützung sehr dankbar!",
