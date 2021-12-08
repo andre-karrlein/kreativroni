@@ -26,3 +26,9 @@ func (home *home) Render() app.UI {
 		),
 	)
 }
+
+func (home *home) OnMount(ctx app.Context) {
+	if ctx.AppUpdateAvailable {
+		ctx.Reload()
+	}
+}
