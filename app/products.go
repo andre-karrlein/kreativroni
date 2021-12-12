@@ -1,29 +1,27 @@
 package main
 
-type etsyProduct struct {
-	Id    int    `json:"listing_id"`
-	Title string `json:"title"`
-	Url   string `json:"url"`
+type listing struct {
+	Id int `json:"listing_id"`
+}
+type product struct {
+	Id     int            `json:"listing_id"`
+	Title  string         `json:"title"`
+	Url    string         `json:"url"`
+	Images []productImage `json:"images"`
 }
 
 type etsyProductData struct {
-	Count   int           `json:"count"`
-	Results []etsyProduct `json:"results"`
+	Count   int       `json:"count"`
+	Results []product `json:"results"`
+}
+
+type listingData struct {
+	Count   int       `json:"count"`
+	Results []listing `json:"results"`
 }
 
 type productImage struct {
 	Url string `json:"url_fullxfull"`
-}
-
-type etsyImageData struct {
-	Count   int            `json:"count"`
-	Results []productImage `json:"results"`
-}
-
-type product struct {
-	Name  string
-	Link  string
-	Image string
 }
 
 type productData struct {

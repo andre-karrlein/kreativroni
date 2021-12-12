@@ -33,33 +33,29 @@ func loadProducts() []product {
 	}
 	sb := string(b)
 
-	var etsyProducts etsyProductData
-	json.Unmarshal([]byte(sb), &etsyProducts)
+	var listings listingData
+	json.Unmarshal([]byte(sb), &listings)
 
-	var products []product
+	var ids []string
 
-	for _, etsy_product := range etsyProducts.Results {
-		b, err = etsy_request("/listings/" + strconv.Itoa(etsy_product.Id) + "/images")
-		if err != nil {
-			log.Println(err)
-			return nil
-		}
-		sb := string(b)
-
-		var imageData etsyImageData
-		json.Unmarshal([]byte(sb), &imageData)
-		url := ""
-		if imageData.Count != 0 {
-			url = imageData.Results[0].Url
-		}
-
-		products = append(products, product{
-			Name:  etsy_product.Title,
-			Link:  etsy_product.Url,
-			Image: url,
-		})
+	for _, listing := range listings.Results {
+		ids = append(ids, strconv.Itoa(listing.Id))
 	}
-	return products
+
+	id_string := strings.Join(ids[:], ",")
+
+	url := "https://openapi.etsy.com/v3/application/listings/batch?includes=images&listing_ids=" + id_string
+	b, err = etsy_request(url)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	sb = string(b)
+
+	var etsyData etsyProductData
+	json.Unmarshal([]byte(sb), &etsyData)
+
+	return etsyData.Results
 }
 
 func etsy_request(path string) ([]byte, error) {
