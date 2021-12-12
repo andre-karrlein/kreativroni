@@ -25,25 +25,7 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(productsJSON)
 }
 
-func imageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	keys, ok := r.URL.Query()["id"]
-	if !ok || len(keys[0]) < 1 {
-		return
-	}
-	id := keys[0]
-	w.WriteHeader(http.StatusOK)
-
-	productsJSON, err := json.Marshal(loadImage(id))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	w.Write(productsJSON)
-}
-
-func loadProducts() []etsyProduct {
+func loadProducts() []product {
 	b, err := etsy_request("/listings/active")
 	if err != nil {
 		log.Println(err)
@@ -54,26 +36,27 @@ func loadProducts() []etsyProduct {
 	var etsyProducts etsyProductData
 	json.Unmarshal([]byte(sb), &etsyProducts)
 
-	var products []etsyProduct
+	var products []product
 
-	products = append(products, etsyProducts.Results...)
-	return products
-}
+	for _, etsy_product := range etsyProducts.Results {
+		b, err = etsy_request("/listings/" + strconv.Itoa(etsy_product.Id) + "/images")
+		if err != nil {
+			log.Println(err)
+			return nil
+		}
+		sb := string(b)
 
-func loadImage(id string) productImage {
-	b, err := etsy_request("/listings/" + id + "/images")
-	if err != nil {
-		log.Println(err)
+		var imageData etsyImageData
+		json.Unmarshal([]byte(sb), &imageData)
+		url := imageData.Results[0].Url
+
+		products = append(products, product{
+			Name:  etsy_product.Title,
+			Link:  etsy_product.Url,
+			Image: url,
+		})
 	}
-	sb := string(b)
-
-	var imageData etsyImageData
-	json.Unmarshal([]byte(sb), &imageData)
-	url := imageData.Results[0].Url
-
-	id_int, _ := strconv.Atoi(id)
-
-	return productImage{Id: id_int, Url: url}
+	return products
 }
 
 func etsy_request(path string) ([]byte, error) {

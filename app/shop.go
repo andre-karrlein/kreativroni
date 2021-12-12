@@ -5,7 +5,6 @@ import (
 	"html"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
 )
@@ -13,8 +12,7 @@ import (
 type shop struct {
 	app.Compo
 
-	products []etsyProduct
-	images   []productImage
+	products []product
 }
 
 func (shop *shop) OnNav(ctx app.Context) {
@@ -38,36 +36,11 @@ func (shop *shop) OnNav(ctx app.Context) {
 		var productsData productData
 		json.Unmarshal([]byte(sb), &productsData)
 
-		var products []etsyProduct
+		var products []product
 
 		products = append(products, productsData.Product...)
 
 		shop.products = products
-		shop.Update()
-
-		var images []productImage
-		for _, elem := range products {
-			r, err := http.Get("/api/v1/image?id=" + strconv.Itoa(elem.Id))
-			if err != nil {
-				app.Log(err)
-				return
-			}
-			defer r.Body.Close()
-
-			b, err := ioutil.ReadAll(r.Body)
-			if err != nil {
-				app.Log(err)
-				return
-			}
-
-			sb := string(b)
-
-			var imageData productImage
-			json.Unmarshal([]byte(sb), &imageData)
-
-			images = append(images, imageData)
-		}
-		shop.images = images
 		shop.Update()
 	})
 }
@@ -81,15 +54,15 @@ func (shop *shop) Render() app.UI {
 			app.Range(shop.products).Slice(func(i int) app.UI {
 				return app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
 					app.Div().Class("flex-none w-44 relative").Body(
-						app.Img().Class("absolute inset-0 w-full h-full object-cover rounded-lg").Src(shop.images[i].Url),
+						app.Img().Class("absolute inset-0 w-full h-full object-cover rounded-lg").Src(shop.products[i].Image),
 					),
 					app.Div().Class("flex-auto max-h-full pl-6").Body(
 						app.Div().Class("flex flex-wrap items-baseline").Body(
-							app.H1().Class("w-full flex-none font-semibold mb-2.5").Text(html.UnescapeString(shop.products[i].Title)),
+							app.H1().Class("w-full flex-none font-semibold mb-2.5").Text(html.UnescapeString(shop.products[i].Name)),
 						),
 						app.Div().Class("flex space-x-3 mb-0 text-sm font-semibold").Body(
 							app.Div().Class("flex-auto flex space-x-3").Body(
-								app.A().Class("h-8 w-full flex items-center justify-center rounded-full text-black bg-pink-300").Href(shop.products[i].Url).Text("Zum Produkt"),
+								app.A().Class("h-8 w-full flex items-center justify-center rounded-full text-black bg-pink-300").Href(shop.products[i].Link).Text("Zum Produkt"),
 							),
 						),
 					),

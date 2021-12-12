@@ -33,7 +33,6 @@ func main() {
 	})
 
 	http.HandleFunc("/api/v1/product", productsHandler)
-	http.HandleFunc("/api/v1/image", imageHandler)
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
