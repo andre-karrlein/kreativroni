@@ -48,7 +48,10 @@ func loadProducts() []product {
 
 		var imageData etsyImageData
 		json.Unmarshal([]byte(sb), &imageData)
-		url := imageData.Results[0].Url
+		url := ""
+		if imageData.Count != 0 {
+			url = imageData.Results[0].Url
+		}
 
 		products = append(products, product{
 			Name:  etsy_product.Title,
