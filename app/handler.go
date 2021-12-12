@@ -50,8 +50,7 @@ func loadProducts() []product {
 		json.Unmarshal([]byte(sb), &imageData)
 		url := ""
 		log.Println(imageData)
-		if (imageData.Count == 0) {
-			log.Println("Count zero")
+		if (imageData.Count != 0) {
 			url = imageData.Results[0].Url
 		}
 
