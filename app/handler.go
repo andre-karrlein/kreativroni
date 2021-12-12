@@ -26,16 +26,18 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadProducts() []product {
-	b, err := etsy_request("/listings/active")
+	b, err := etsy_request("https://openapi.etsy.com/v3/application/shops/31340310/listings/active")
 	if err != nil {
 		log.Println(err)
 		return nil
 	}
 	sb := string(b)
+	log.Println(sb)
 
 	var listings listingData
 	json.Unmarshal([]byte(sb), &listings)
 
+	log.Println(listings)
 	var ids []string
 
 	for _, listing := range listings.Results {
@@ -43,8 +45,9 @@ func loadProducts() []product {
 	}
 
 	id_string := strings.Join(ids[:], ",")
+	log.Println(id_string)
 
-	url := "https://openapi.etsy.com/v3/application/listings/batch?includes=images&listing_ids=" + id_string
+	url := "https://openapi.etsy.com/v3/application/listings/batch?language=de&includes=images&listing_ids=" + id_string
 	b, err = etsy_request(url)
 	if err != nil {
 		log.Println(err)
@@ -58,13 +61,13 @@ func loadProducts() []product {
 	return etsyData.Results
 }
 
-func etsy_request(path string) ([]byte, error) {
-	req, err := http.NewRequest("GET", "https://openapi.etsy.com/v3/application/shops/31340310"+path, nil)
+func etsy_request(url string) ([]byte, error) {
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	api_key := os.Getenv("API-KEY")
+	api_key := os.Getenv("API_KEY")
 	req.Header.Add("x-api-key", api_key)
 
 	lowerCaseHeader := make(http.Header)
