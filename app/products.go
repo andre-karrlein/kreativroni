@@ -12,6 +12,7 @@ type etsyProductData struct {
 }
 
 type productImage struct {
+	Id  int    `json:"listing_id"`
 	Url string `json:"url_fullxfull"`
 }
 
@@ -27,5 +28,5 @@ type product struct {
 }
 
 type productData struct {
-	Product []product `json:"products"`
+	Product []etsyProduct `json:"products"`
 }
