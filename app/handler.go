@@ -48,6 +48,8 @@ func loadProducts() []product {
 
 		var imageData etsyImageData
 		json.Unmarshal([]byte(sb), &imageData)
+		log.Println(imageData)
+		log.Println(imageData.Results)
 		url := imageData.Results[0].Url
 
 		products = append(products, product{
