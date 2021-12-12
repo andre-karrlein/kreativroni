@@ -56,9 +56,7 @@ func loadProducts() []etsyProduct {
 
 	var products []etsyProduct
 
-	for _, product := range etsyProducts.Results {
-		products = append(products, product)
-	}
+	products = append(products, etsyProducts.Results...)
 	return products
 }
 
