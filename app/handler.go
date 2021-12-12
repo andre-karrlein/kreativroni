@@ -1,67 +1,23 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
-
-	"cloud.google.com/go/firestore"
-	"google.golang.org/api/iterator"
 )
 
-func saveHandler(w http.ResponseWriter, r *http.Request) {
-	authHeader := r.Header.Get("Authorization")
-	auth := strings.Split(authHeader, " ")
-	password := auth[1]
-
-	if !CheckAuth(password) {
-		w.WriteHeader(http.StatusUnauthorized)
-	}
-
-	if r.Method == "POST" {
-		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-		if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
-		}
-		name := r.FormValue("name")
-		image := r.FormValue("image")
-		link := r.FormValue("link")
-		log.Println("Name: " + name + " Image: " + image + " Link: " + link)
-
-		article := product{
-			Name:  name,
-			Link:  link,
-			Image: image,
-		}
-
-		saveProduct(article)
-
-		w.WriteHeader(http.StatusCreated)
-	} else {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-	}
-}
-
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "DELETE" {
-		authHeader := r.Header.Get("Authorization")
-		auth := strings.Split(authHeader, " ")
-		password := auth[1]
-
-		if !CheckAuth(password) {
-			w.WriteHeader(http.StatusUnauthorized)
-		}
-		deleteHandler(w, r)
-	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 
-	productsJSON, err := json.Marshal(loadProducts())
+	productsJSON, err := json.Marshal(productData{
+		Product: loadProducts(),
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -69,83 +25,66 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(productsJSON)
 }
 
-func deleteHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
-	query := r.URL.Query()
-	id, present := query["id"]
-	if !present || len(id) == 0 {
-		fmt.Println("id not present")
+func loadProducts() []product {
+	b, err := etsy_request("/listings/active")
+	if err != nil {
+		log.Println(err)
+		return nil
 	}
+	sb := string(b)
 
-	deleteProduct(id[0])
+	var etsyProducts etsyProductData
+	json.Unmarshal([]byte(sb), &etsyProducts)
 
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
-}
+	var products []product
 
-func loadProducts() []productWithId {
-	ctx := context.Background()
-	client := createClient(ctx)
-	defer client.Close()
-
-	var products []productWithId
-
-	iter := client.Collection("products").Documents(ctx)
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
+	for _, etsy_product := range etsyProducts.Results {
+		b, err = etsy_request("/listings/" + strconv.Itoa(etsy_product.Id) + "/images")
 		if err != nil {
-			log.Fatalf("Failed to iterate: %v", err)
+			log.Println(err)
+			return nil
 		}
+		sb := string(b)
 
-		var p product
-		id := doc.Ref.ID
-		doc.DataTo(&p)
+		var imageData etsyImageData
+		json.Unmarshal([]byte(sb), &imageData)
+		url := imageData.Results[0].Url
 
-		productStructure := productWithId{ID: id, Product: p}
-
-		products = append(products, productStructure)
+		products = append(products, product{
+			Name:  etsy_product.Title,
+			Link:  etsy_product.Url,
+			Image: url,
+		})
 	}
-
 	return products
 }
 
-func saveProduct(product product) {
-	ctx := context.Background()
-	client := createClient(ctx)
-	defer client.Close()
-
-	_, _, err := client.Collection("products").Add(ctx, product)
+func etsy_request(path string) ([]byte, error) {
+	req, err := http.NewRequest("GET", "https://openapi.etsy.com/v3/application/shops/31340310"+path, nil)
 	if err != nil {
-		// Handle any errors in an appropriate way, such as returning them.
-		log.Printf("An error has occurred: %s", err)
-	}
-}
-
-func deleteProduct(id string) {
-	ctx := context.Background()
-	client := createClient(ctx)
-	defer client.Close()
-
-	_, err := client.Collection("products").Doc(id).Delete(ctx)
-	if err != nil {
-		// Handle any errors in an appropriate way, such as returning them.
-		log.Printf("An error has occurred: %s", err)
-	}
-}
-
-func createClient(ctx context.Context) *firestore.Client {
-	// Sets your Google Cloud Platform project ID.
-	projectID := "kreativroni" // os.Getenv("PROJECT_ID")
-
-	client, err := firestore.NewClient(ctx, projectID)
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
+		return nil, err
 	}
 
-	return client
+	api_key := os.Getenv("API-KEY")
+	req.Header.Add("x-api-key", api_key)
+
+	lowerCaseHeader := make(http.Header)
+
+	for key, value := range req.Header {
+		lowerCaseHeader[strings.ToLower(key)] = value
+	}
+
+	req.Header = lowerCaseHeader
+	r, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer r.Body.Close()
+
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
 }

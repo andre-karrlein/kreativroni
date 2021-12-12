@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"html"
 	"io/ioutil"
 	"net/http"
 
@@ -32,14 +33,12 @@ func (shop *shop) OnNav(ctx app.Context) {
 
 		sb := string(b)
 
-		var productsData []productWithId
+		var productsData productData
 		json.Unmarshal([]byte(sb), &productsData)
 
 		var products []product
 
-		for _, product := range productsData {
-			products = append(products, product.Product)
-		}
+		products = append(products, productsData.Product...)
 
 		shop.products = products
 		shop.Update()
@@ -59,7 +58,7 @@ func (shop *shop) Render() app.UI {
 					),
 					app.Div().Class("flex-auto max-h-full pl-6").Body(
 						app.Div().Class("flex flex-wrap items-baseline").Body(
-							app.H1().Class("w-full flex-none font-semibold mb-2.5").Text(shop.products[i].Name),
+							app.H1().Class("w-full flex-none font-semibold mb-2.5").Text(html.UnescapeString(shop.products[i].Name)),
 						),
 						app.Div().Class("flex space-x-3 mb-0 text-sm font-semibold").Body(
 							app.Div().Class("flex-auto flex space-x-3").Body(

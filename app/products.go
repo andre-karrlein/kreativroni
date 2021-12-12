@@ -1,12 +1,31 @@
 package main
 
-type product struct {
-	Name  string `firestore:"name,omitempty"`
-	Link  string `firestore:"link,omitempty"`
-	Image string `firestore:"image,omitempty"`
+type etsyProduct struct {
+	Id    int    `json:"listing_id"`
+	Title string `json:"title"`
+	Url   string `json:"url"`
 }
 
-type productWithId struct {
-	ID      string  `json:"id"`
-	Product product `json:"product"`
+type etsyProductData struct {
+	Count   int           `json:"count"`
+	Results []etsyProduct `json:"results"`
+}
+
+type productImage struct {
+	Url string `json:"url_fullxfull"`
+}
+
+type etsyImageData struct {
+	Count   int            `json:"count"`
+	Results []productImage `json:"results"`
+}
+
+type product struct {
+	Name  string
+	Link  string
+	Image string
+}
+
+type productData struct {
+	Product []product `json:"products"`
 }
