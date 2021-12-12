@@ -66,6 +66,7 @@ func etsy_request(path string) ([]byte, error) {
 	}
 
 	api_key := os.Getenv("API-KEY")
+	log.Println(api_key)
 	req.Header.Add("x-api-key", api_key)
 
 	lowerCaseHeader := make(http.Header)
