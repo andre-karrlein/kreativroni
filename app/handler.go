@@ -49,7 +49,9 @@ func loadProducts() []product {
 		var imageData etsyImageData
 		json.Unmarshal([]byte(sb), &imageData)
 		url := ""
+		log.Println(imageData)
 		if (imageData.Count == 0) {
+			log.Println("Count zero")
 			url = imageData.Results[0].Url
 		}
 
