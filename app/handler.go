@@ -32,12 +32,10 @@ func loadProducts() []product {
 		return nil
 	}
 	sb := string(b)
-	log.Println(sb)
 
 	var listings listingData
 	json.Unmarshal([]byte(sb), &listings)
 
-	log.Println(listings)
 	var ids []string
 
 	for _, listing := range listings.Results {
@@ -45,7 +43,6 @@ func loadProducts() []product {
 	}
 
 	id_string := strings.Join(ids[:], ",")
-	log.Println(id_string)
 
 	url := "https://openapi.etsy.com/v3/application/listings/batch?language=de&includes=images&listing_ids=" + id_string
 	b, err = etsy_request(url)
