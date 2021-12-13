@@ -21,7 +21,10 @@ type listingData struct {
 }
 
 type productImage struct {
-	Url string `json:"url_fullxfull"`
+	Url_full    string `json:"url_fullxfull"`
+	Url_75x75   string `json:"url_75x75"`
+	Url_170x135 string `json:"url_170x135"`
+	Url_570xN   string `json:"url_570xN"`
 }
 
 type productData struct {
