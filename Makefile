@@ -5,4 +5,4 @@ wasm:
 	@GOARCH=wasm GOOS=js go build -o web/app.wasm ./app
 
 run: build wasm
-	export GOOGLE_APPLICATION_CREDENTIALS="./kreativroni.json" && ./kreativroni
+	export API_KEY="" && ./kreativroni
