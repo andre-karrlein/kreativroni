@@ -55,7 +55,12 @@ func loadProducts() []product {
 	var etsyData etsyProductData
 	json.Unmarshal([]byte(sb), &etsyData)
 
-	return etsyData.Results
+	var products []product
+	for _, listingProduct := range etsyData.Results {
+		products = append(products, product(listingProduct))
+	}
+
+	return products
 }
 
 func etsy_request(url string) ([]byte, error) {
