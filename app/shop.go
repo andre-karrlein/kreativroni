@@ -35,12 +35,8 @@ func (shop *shop) OnNav(ctx app.Context) {
 
 		sb := string(b)
 
-		var productsData productData
-		json.Unmarshal([]byte(sb), &productsData)
-
 		var products []product
-
-		products = append(products, productsData.Product...)
+		json.Unmarshal([]byte(sb), &products)
 
 		shop.products = products
 		shop.Update()

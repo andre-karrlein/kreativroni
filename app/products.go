@@ -36,10 +36,6 @@ type price struct {
 	Currency_Code string `json:"currency_code"`
 }
 
-type productData struct {
-	Product []product `json:"products"`
-}
-
 type etsyProductData struct {
 	Count   int              `json:"count"`
 	Results []listingProduct `json:"results"`

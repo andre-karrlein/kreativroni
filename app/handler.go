@@ -15,9 +15,7 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 
-	productsJSON, err := json.Marshal(productData{
-		Product: loadProducts(),
-	})
+	productsJSON, err := json.Marshal(loadProducts())
 	if err != nil {
 		log.Fatal(err)
 	}
