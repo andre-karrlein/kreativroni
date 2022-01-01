@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -8,6 +9,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"cloud.google.com/go/firestore"
 )
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,6 +24,57 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write(productsJSON)
+}
+
+func orderHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
+		/*if err := r.ParseForm(); err != nil {
+			fmt.Fprintf(w, "ParseForm() err: %v", err)
+			return
+		}
+		id := r.FormValue("id")
+		productName := r.FormValue("productName")
+		productId := r.FormValue("productId")
+		email := r.FormValue("email")
+		name := r.FormValue("name")
+		addressLine1 := r.FormValue("addressLine1")
+		addressLine2 := r.FormValue("addressLine2")
+		city := r.FormValue("city")
+		payment := r.FormValue("payment")
+
+		order := order{
+			ID:           id,
+			ProductName:  productName,
+			ProductId:    productId,
+			Email:        email,
+			Name:         name,
+			AddressLine1: addressLine1,
+			AddressLine2: addressLine2,
+			City:         city,
+			Payment:      payment,
+		}
+		*/
+		// Declare a new order struct.
+		var o order
+
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&o)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		err = saveOrder(o)
+		if err != nil {
+			http.Error(w, "Error creating order", http.StatusBadGateway)
+		}
+
+		w.WriteHeader(http.StatusCreated)
+	} else {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
 }
 
 func loadProducts() []product {
@@ -89,4 +143,30 @@ func etsy_request(url string) ([]byte, error) {
 	}
 
 	return b, nil
+}
+
+func saveOrder(order order) error {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	_, err := client.Collection("orders").Doc(order.ID+"--"+order.ProductId).Set(ctx, order)
+	if err != nil {
+		// Handle any errors in an appropriate way, such as returning them.
+		log.Printf("An error has occurred: %s", err)
+		return err
+	}
+	return nil
+}
+
+func createClient(ctx context.Context) *firestore.Client {
+	// Sets your Google Cloud Platform project ID.
+	projectID := "kreativroni" // os.Getenv("PROJECT_ID")
+
+	client, err := firestore.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+
+	return client
 }
