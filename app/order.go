@@ -2,7 +2,7 @@ package main
 
 type order struct {
 	ID           string `json:"id" firestore:"id,omitempty"`
-	UserID       string `json:"userId firestore:"userId,omitempty"`
+	User       string `json:"user firestore:"user,omitempty"`
 	Payment      string `json:"payment" firestore:"payment,omitempty"`
 	ProductName  string `json:"productName" firestore:"productName,omitempty"`
 	ProductId    string `json:"productId" firestore:"productId,omitempty"`
