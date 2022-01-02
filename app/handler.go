@@ -11,9 +11,17 @@ import (
 	"strings"
 
 	"cloud.google.com/go/firestore"
+	"google.golang.org/api/iterator"
 )
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
+	keys, ok := r.URL.Query()["appkey"]
+
+	if !ok || len(keys[0]) < 1 || keys[0] != "testing" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
@@ -27,34 +35,13 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func orderHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-		/*if err := r.ParseForm(); err != nil {
-			fmt.Fprintf(w, "ParseForm() err: %v", err)
-			return
-		}
-		id := r.FormValue("id")
-		productName := r.FormValue("productName")
-		productId := r.FormValue("productId")
-		email := r.FormValue("email")
-		name := r.FormValue("name")
-		addressLine1 := r.FormValue("addressLine1")
-		addressLine2 := r.FormValue("addressLine2")
-		city := r.FormValue("city")
-		payment := r.FormValue("payment")
+	keys, ok := r.URL.Query()["appkey"]
 
-		order := order{
-			ID:           id,
-			ProductName:  productName,
-			ProductId:    productId,
-			Email:        email,
-			Name:         name,
-			AddressLine1: addressLine1,
-			AddressLine2: addressLine2,
-			City:         city,
-			Payment:      payment,
-		}
-		*/
+	if !ok || len(keys[0]) < 1 || keys[0] != "testing" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if r.Method == "POST" {
 		// Declare a new order struct.
 		var o order
 
@@ -72,6 +59,30 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusCreated)
+		return
+	}
+	if r.Method == "GET" {
+		keys_id, ok := r.URL.Query()["id"]
+		if !ok || len(keys_id[0]) < 1 {
+			allOrdersJSON, err := json.Marshal(loadAllOrders())
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w.Write(allOrdersJSON)
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		id := keys_id[0]
+
+		ordersJSON, err := json.Marshal(loadOrders(id))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		w.Write(ordersJSON)
+		w.WriteHeader(http.StatusOK)
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 	}
@@ -157,6 +168,56 @@ func saveOrder(order order) error {
 		return err
 	}
 	return nil
+}
+
+func loadOrders(id string) []order {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	var orders []order
+
+	iter := client.Collection("orders").Where("user", "==", id).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		var o order
+		doc.DataTo(&o)
+
+		orders = append(orders, o)
+	}
+
+	return orders
+}
+
+func loadAllOrders() []order {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	var orders []order
+
+	iter := client.Collection("orders").Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		var o order
+		doc.DataTo(&o)
+
+		orders = append(orders, o)
+	}
+
+	return orders
 }
 
 func createClient(ctx context.Context) *firestore.Client {
