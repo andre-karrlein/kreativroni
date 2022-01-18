@@ -17,7 +17,9 @@ import (
 func productsHandler(w http.ResponseWriter, r *http.Request) {
 	keys, ok := r.URL.Query()["appkey"]
 
-	if !ok || len(keys[0]) < 1 || keys[0] != "testing" {
+	app_key := os.Getenv("APP_KEY")
+
+	if !ok || len(keys[0]) < 1 || keys[0] != app_key {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -36,8 +38,9 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 
 func orderHandler(w http.ResponseWriter, r *http.Request) {
 	keys, ok := r.URL.Query()["appkey"]
+	app_key := os.Getenv("APP_KEY")
 
-	if !ok || len(keys[0]) < 1 || keys[0] != "testing" {
+	if !ok || len(keys[0]) < 1 || keys[0] != app_key {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
