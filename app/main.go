@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
 )
@@ -30,6 +31,9 @@ func main() {
 			"https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
 		},
 		ThemeColor: "#3a8277",
+		Env: app.Environment{
+			"APP_KEY": os.Getenv("APP_KEY"),
+		},
 	})
 
 	http.HandleFunc("/api/v1/product", productsHandler)

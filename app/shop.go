@@ -6,7 +6,6 @@ import (
 	"html"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
@@ -21,7 +20,7 @@ type shop struct {
 func (shop *shop) OnNav(ctx app.Context) {
 	// Launching a new goroutine:
 	ctx.Async(func() {
-		app_key := os.Getenv("APP_KEY")
+		app_key := app.Getenv("APP_KEY")
 		r, err := http.Get("/api/v1/product?appkey=" + app_key)
 		if err != nil {
 			app.Log(err)
