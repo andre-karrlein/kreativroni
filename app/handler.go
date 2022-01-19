@@ -36,6 +36,28 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(productsJSON)
 }
 
+func newsHandler(w http.ResponseWriter, r *http.Request) {
+	keys, ok := r.URL.Query()["appkey"]
+
+	app_key := os.Getenv("APP_KEY")
+
+	if !ok || len(keys[0]) < 1 || keys[0] != app_key {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(http.StatusOK)
+
+	newsJson, err := json.Marshal(loadNews())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(newsJson)
+}
+
 func orderHandler(w http.ResponseWriter, r *http.Request) {
 	keys, ok := r.URL.Query()["appkey"]
 	app_key := os.Getenv("APP_KEY")
@@ -221,6 +243,31 @@ func loadAllOrders() []order {
 	}
 
 	return orders
+}
+
+func loadNews() []news {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	var news_items []news
+
+	iter := client.Collection("news").Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		var o news
+		doc.DataTo(&o)
+
+		news_items = append(news_items, o)
+	}
+
+	return news_items
 }
 
 func createClient(ctx context.Context) *firestore.Client {
