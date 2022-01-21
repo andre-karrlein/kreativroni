@@ -7,6 +7,7 @@ type order struct {
 	ProductName  string `json:"productName" firestore:"productName,omitempty"`
 	ProductId    string `json:"productId" firestore:"productId,omitempty"`
 	Price        string `json:"price" firestore:"price,omitempty"`
+	Status       string `json:"status" firestore:"status,omitempty"`
 	Email        string `json:"email" firestore:"email,omitempty"`
 	Name         string `json:"name" firestore:"name,omitempty"`
 	AddressLine1 string `json:"addressline1" firestore:"addressline1,omitempty"`
