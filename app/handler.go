@@ -23,12 +23,19 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	keys, ok = r.URL.Query()["lang"]
+
+	if !ok || len(keys[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	language := keys[0]
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 
-	productsJSON, err := json.Marshal(loadProducts())
+	productsJSON, err := json.Marshal(loadProducts(language))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -113,7 +120,7 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func loadProducts() []product {
+func loadProducts(language string) []product {
 	b, err := etsy_request("https://openapi.etsy.com/v3/application/shops/31340310/listings/active")
 	if err != nil {
 		log.Println(err)
@@ -132,7 +139,7 @@ func loadProducts() []product {
 
 	id_string := strings.Join(ids[:], ",")
 
-	url := "https://openapi.etsy.com/v3/application/listings/batch?language=de&includes=images&listing_ids=" + id_string
+	url := "https://openapi.etsy.com/v3/application/listings/batch?includes=images&language=" + language + "&listing_ids=" + id_string
 	b, err = etsy_request(url)
 	if err != nil {
 		log.Println(err)
