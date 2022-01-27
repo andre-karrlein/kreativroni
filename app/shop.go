@@ -20,7 +20,7 @@ type shop struct {
 func (shop *shop) OnNav(ctx app.Context) {
 	// Launching a new goroutine:
 	ctx.Async(func() {
-		app_key := app.Getenv("APP_KEY")
+		app_key := app.Getenv("PRODUCTS_KEY")
 		r, err := http.Get("/api/v1/product?appkey=" + app_key)
 		if err != nil {
 			app.Log(err)
