@@ -18,8 +18,9 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	keys, ok := r.URL.Query()["appkey"]
 
 	app_key := os.Getenv("APP_KEY")
+	products_key := os.Getenv("PRODUCTS_KEY")
 
-	if !ok || len(keys[0]) < 1 || keys[0] != app_key {
+	if !ok || len(keys[0]) < 1 || (keys[0] != app_key && keys[0] != products_key) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

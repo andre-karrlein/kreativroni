@@ -32,7 +32,7 @@ func main() {
 		},
 		ThemeColor: "#3a8277",
 		Env: app.Environment{
-			"APP_KEY": os.Getenv("APP_KEY"),
+			"PRODUCTS_KEY": os.Getenv("PRODUCTS_KEY"),
 		},
 	})
 
