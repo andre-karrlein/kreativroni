@@ -53,16 +53,55 @@ func newsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.WriteHeader(http.StatusOK)
+	if r.Method == "POST" {
+		// Declare a new news struct.
+		var n news
 
-	newsJson, err := json.Marshal(loadNews())
-	if err != nil {
-		log.Fatal(err)
+		// Try to decode the request body into the struct. If there is an error,
+		// respond to the client with the error message and a 400 status code.
+		err := json.NewDecoder(r.Body).Decode(&n)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		err = saveNews(n)
+		if err != nil {
+			http.Error(w, "Error creating or updating post", http.StatusBadGateway)
+		}
+
+		w.WriteHeader(http.StatusCreated)
+		return
 	}
+	if r.Method == "GET" {
+		keys_id, ok := r.URL.Query()["id"]
+		if !ok || len(keys_id[0]) < 1 {
+			newsJSON, err := json.Marshal(loadAllNews())
+			if err != nil {
+				log.Fatal(err)
+			}
 
-	w.Write(newsJson)
+			w.Write(newsJSON)
+			w.Header().Set("Content-Type", "application/json; charset=utf-8")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		id := keys_id[0]
+
+		newsJSON, err := json.Marshal(loadNews(id))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		w.Write(newsJSON)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.WriteHeader(http.StatusOK)
+	} else {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
 }
 
 func orderHandler(w http.ResponseWriter, r *http.Request) {
@@ -252,7 +291,7 @@ func loadAllOrders() []order {
 	return orders
 }
 
-func loadNews() []news {
+func loadAllNews() []news {
 	ctx := context.Background()
 	client := createClient(ctx)
 	defer client.Close()
@@ -275,6 +314,45 @@ func loadNews() []news {
 	}
 
 	return news_items
+}
+
+func loadNews(id string) news {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	var news_item news
+
+	iter := client.Collection("news").Where("id", "==", id).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		var n news
+		doc.DataTo(&n)
+
+		news_item = n
+	}
+
+	return news_item
+}
+
+func saveNews(news news) error {
+	ctx := context.Background()
+	client := createClient(ctx)
+	defer client.Close()
+
+	_, err := client.Collection("news").Doc(news.ID).Set(ctx, news)
+	if err != nil {
+		// Handle any errors in an appropriate way, such as returning them.
+		log.Printf("An error has occurred: %s", err)
+		return err
+	}
+	return nil
 }
 
 func createClient(ctx context.Context) *firestore.Client {
