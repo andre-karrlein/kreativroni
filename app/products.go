@@ -8,8 +8,8 @@ type listingProduct struct {
 	Id            int            `json:"listing_id"`
 	Title         string         `json:"title"`
 	Description   string         `json:"description"`
-	Quantity      string         `json:"quantity"`
-	ShopSectionId string         `json:"shop_section_id"`
+	Quantity      int            `json:"quantity"`
+	ShopSectionId int            `json:"shop_section_id"`
 	Tags          []string       `json:"tags"`
 	Price         price          `json:"price"`
 	Url           string         `json:"url"`
@@ -19,8 +19,8 @@ type product struct {
 	Id            int            `json:"id"`
 	Title         string         `json:"title"`
 	Description   string         `json:"description"`
-	Quantity      string         `json:"quantity"`
-	ShopSectionId string         `json:"shop_section_id"`
+	Quantity      int            `json:"quantity"`
+	ShopSectionId int            `json:"shop_section_id"`
 	Tags          []string       `json:"tags"`
 	Price         price          `json:"price"`
 	Url           string         `json:"url"`

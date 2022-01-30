@@ -39,6 +39,7 @@ func main() {
 	http.HandleFunc("/api/v1/product", productsHandler)
 	http.HandleFunc("/api/v1/order", orderHandler)
 	http.HandleFunc("/api/v1/news", newsHandler)
+	http.HandleFunc("/api/v1/sections", sectionsHandler)
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)

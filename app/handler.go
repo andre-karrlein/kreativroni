@@ -14,6 +14,35 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+func sectionsHandler(w http.ResponseWriter, r *http.Request) {
+	keys, ok := r.URL.Query()["appkey"]
+
+	app_key := os.Getenv("APP_KEY")
+
+	if !ok || len(keys[0]) < 1 || keys[0] != app_key {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	keys, ok = r.URL.Query()["lang"]
+
+	if !ok || len(keys[0]) < 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	language := keys[0]
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.WriteHeader(http.StatusOK)
+
+	sectionsJSON, err := json.Marshal(loadSections(language))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(sectionsJSON)
+}
+
 func productsHandler(w http.ResponseWriter, r *http.Request) {
 	keys, ok := r.URL.Query()["appkey"]
 
@@ -196,6 +225,20 @@ func loadProducts(language string) []product {
 	}
 
 	return products
+}
+
+func loadSections(language string) []section {
+	b, err := etsy_request("https://openapi.etsy.com/v3/application/shops/31340310/sections?language=" + language)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	sb := string(b)
+
+	var sectionListings sectionData
+	json.Unmarshal([]byte(sb), &sectionListings)
+
+	return sectionListings.Results
 }
 
 func etsy_request(url string) ([]byte, error) {
