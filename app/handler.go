@@ -238,7 +238,12 @@ func loadSections(language string) []section {
 	var sectionListings sectionData
 	json.Unmarshal([]byte(sb), &sectionListings)
 
-	return sectionListings.Results
+	var sections []section
+	for _, sectionListing := range sectionListings.Results {
+		sections = append(sections, section(sectionListing))
+	}
+
+	return sections
 }
 
 func etsy_request(url string) ([]byte, error) {
