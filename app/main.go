@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/andre-karrlein/kreativroni/app/api"
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
 )
 
@@ -36,10 +37,11 @@ func main() {
 		},
 	})
 
-	http.HandleFunc("/api/v1/product", productsHandler)
-	http.HandleFunc("/api/v1/order", orderHandler)
-	http.HandleFunc("/api/v1/news", newsHandler)
-	http.HandleFunc("/api/v1/sections", sectionsHandler)
+	http.HandleFunc("/api/v1/product", api.ProductsHandler)
+	http.HandleFunc("/api/v1/order", api.OrderHandler)
+	http.HandleFunc("/api/v1/news", api.NewsHandler)
+	http.HandleFunc("/api/v1/sections", api.SectionsHandler)
+	http.HandleFunc("/api/v1/customer", api.CustomerHandler)
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)

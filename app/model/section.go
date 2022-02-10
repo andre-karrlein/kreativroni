@@ -1,16 +1,16 @@
-package main
+package model
 
-type sectionListing struct {
+type SectionListing struct {
 	Id    int    `json:"shop_section_id"`
 	Title string `json:"title"`
 }
 
-type section struct {
+type Section struct {
 	Id    int    `json:"id"`
 	Title string `json:"title"`
 }
 
-type sectionData struct {
+type SectionData struct {
 	Count   int              `json:"count"`
-	Results []sectionListing `json:"results"`
+	Results []SectionListing `json:"results"`
 }

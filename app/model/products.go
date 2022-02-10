@@ -1,51 +1,51 @@
-package main
+package model
 
-type listing struct {
+type Listing struct {
 	Id int `json:"listing_id"`
 }
 
-type listingProduct struct {
+type ListingProduct struct {
 	Id            int            `json:"listing_id"`
 	Title         string         `json:"title"`
 	Description   string         `json:"description"`
 	Quantity      int            `json:"quantity"`
 	ShopSectionId int            `json:"shop_section_id"`
 	Tags          []string       `json:"tags"`
-	Price         price          `json:"price"`
+	Price         Price          `json:"price"`
 	Url           string         `json:"url"`
-	Images        []productImage `json:"images"`
+	Images        []ProductImage `json:"images"`
 }
-type product struct {
+type Product struct {
 	Id            int            `json:"id"`
 	Title         string         `json:"title"`
 	Description   string         `json:"description"`
 	Quantity      int            `json:"quantity"`
 	ShopSectionId int            `json:"shop_section_id"`
 	Tags          []string       `json:"tags"`
-	Price         price          `json:"price"`
+	Price         Price          `json:"price"`
 	Url           string         `json:"url"`
-	Images        []productImage `json:"images"`
+	Images        []ProductImage `json:"images"`
 }
 
-type productImage struct {
+type ProductImage struct {
 	Url_full    string `json:"url_fullxfull"`
 	Url_75x75   string `json:"url_75x75"`
 	Url_170x135 string `json:"url_170x135"`
 	Url_570xN   string `json:"url_570xN"`
 }
 
-type price struct {
+type Price struct {
 	Amount        int    `json:"amount"`
 	Divisor       int    `json:"divisor"`
 	Currency_Code string `json:"currency_code"`
 }
 
-type etsyProductData struct {
+type EtsyProductData struct {
 	Count   int              `json:"count"`
-	Results []listingProduct `json:"results"`
+	Results []ListingProduct `json:"results"`
 }
 
-type listingData struct {
+type ListingData struct {
 	Count   int       `json:"count"`
-	Results []listing `json:"results"`
+	Results []Listing `json:"results"`
 }

@@ -1,6 +1,6 @@
-package main
+package model
 
-type news struct {
+type News struct {
 	ID      string `json:"id" firestore:"id,omitempty"`
 	Title   string `json:"title" firestore:"title,omitempty"`
 	Teaser  string `json:"teaser" firestore:"teaser,omitempty"`

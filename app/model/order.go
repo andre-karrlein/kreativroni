@@ -1,6 +1,6 @@
-package main
+package model
 
-type order struct {
+type Order struct {
 	ID           string `json:"id" firestore:"id,omitempty"`
 	User         string `json:"user" firestore:"user,omitempty"`
 	Payment      string `json:"payment" firestore:"payment,omitempty"`

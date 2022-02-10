@@ -8,13 +8,14 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/andre-karrlein/kreativroni/app/model"
 	"github.com/maxence-charriere/go-app/v8/pkg/app"
 )
 
 type shop struct {
 	app.Compo
 
-	products []product
+	products []model.Product
 }
 
 func (shop *shop) OnNav(ctx app.Context) {
@@ -36,7 +37,7 @@ func (shop *shop) OnNav(ctx app.Context) {
 
 		sb := string(b)
 
-		var products []product
+		var products []model.Product
 		json.Unmarshal([]byte(sb), &products)
 
 		shop.products = products
