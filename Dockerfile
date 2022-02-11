@@ -1,12 +1,13 @@
 FROM golang:1.16-alpine as builder
 
 WORKDIR /go/build/
-RUN mkdir app
-COPY app/* app/
+COPY app app
 COPY go.mod .
 COPY go.sum .
 
 RUN go mod download
+
+RUN ls ./app
 
 RUN go build -o kreativroni ./app
 RUN GOARCH=wasm GOOS=js go build -o web/app.wasm ./app
