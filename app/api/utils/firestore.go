@@ -18,3 +18,16 @@ func CreateClient(ctx context.Context) *firestore.Client {
 
 	return client
 }
+
+func DeleteFromCollection(id string, collection string) error {
+	ctx := context.Background()
+	client := CreateClient(ctx)
+	defer client.Close()
+
+	_, err := client.Collection(collection).Doc(id).Delete(ctx)
+	if err != nil {
+		// Handle any errors in an appropriate way, such as returning them.
+		log.Printf("An error has occurred: %s", err)
+	}
+	return nil
+}
