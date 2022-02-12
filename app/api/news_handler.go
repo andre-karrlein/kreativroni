@@ -22,6 +22,22 @@ func NewsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if r.Method == "DELETE" {
+		keys, ok := r.URL.Query()["id"]
+
+		if !ok || len(keys[0]) < 1 {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err := utils.DeleteFromCollection(keys[0], "news")
+		if err != nil {
+			http.Error(w, "Error deleting post", http.StatusBadGateway)
+		}
+
+		w.WriteHeader(http.StatusAccepted)
+		return
+	}
 	if r.Method == "POST" {
 		// Declare a new news struct.
 		var n model.News
