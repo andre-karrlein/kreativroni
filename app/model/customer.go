@@ -5,4 +5,5 @@ type Customer struct {
 	CustomerNumber string `json:"customerNumber" firestore:"customerNumber,omitempty"`
 	Name           string `json:"name" firestore:"name,omitempty"`
 	Surname        string `json:"surname" firestore:"surname,omitempty"`
+	UserOrderId    string `json:"userOrderId" firestore:"userOrderId,omitempty"`
 }
