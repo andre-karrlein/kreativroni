@@ -14,4 +14,5 @@ type Order struct {
 	AddressLine1 string `json:"addressline1" firestore:"addressline1,omitempty"`
 	AddressLine2 string `json:"addressline2" firestore:"addressline2,omitempty"`
 	City         string `json:"city" firestore:"city,omitempty"`
+	InvoiceId    string `json:"invoiceId" firestore:"invoiceId,omitempty"`
 }
