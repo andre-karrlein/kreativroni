@@ -37,6 +37,7 @@ func main() {
 		},
 	})
 
+	http.HandleFunc("/api/v1/product/variations", api.ProductVariationsHandler)
 	http.HandleFunc("/api/v1/product", api.ProductsHandler)
 	http.HandleFunc("/api/v1/order", api.OrderHandler)
 	http.HandleFunc("/api/v1/news", api.NewsHandler)
