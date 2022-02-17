@@ -1,10 +1,11 @@
 package model
 
 type Variation struct {
-	Id      int    `json:"id"`
-	ValueId int    `json:"value_id"`
-	Value   string `json:"value"`
-	ImageId int    `json:"image_id"`
+	Id         int    `json:"id"`
+	PropertyId int    `json:"property_id"`
+	ValueId    int    `json:"value_id"`
+	Value      string `json:"value"`
+	ImageId    int    `json:"image_id"`
 }
 
 type ListingVariation struct {

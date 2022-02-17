@@ -59,9 +59,18 @@ func loadVariations(language string, id string) []model.Variation {
 	json.Unmarshal([]byte(sb), &variationData)
 
 	var variations []model.Variation
+	index := 1
 
 	for _, listingVariation := range variationData.Results {
-		variations = append(variations, model.Variation(listingVariation))
+		variations = append(variations, model.Variation{
+			Id:         index,
+			PropertyId: listingVariation.Id,
+			ValueId:    listingVariation.ValueId,
+			Value:      listingVariation.Value,
+			ImageId:    listingVariation.ImageId,
+		})
+
+		index++
 	}
 
 	return variations
