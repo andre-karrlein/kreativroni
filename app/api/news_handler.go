@@ -61,15 +61,29 @@ func NewsHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		keys_id, ok := r.URL.Query()["id"]
 		if !ok || len(keys_id[0]) < 1 {
-			newsJSON, err := json.Marshal(loadAllNews())
+			editor, ok := r.URL.Query()["editor"]
+
+			if !ok || len(editor[0]) < 1 {
+				newsJSON, err := json.Marshal(loadAllNews(true))
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				w.WriteHeader(http.StatusOK)
+				w.Header().Set("Content-Type", "application/json; charset=utf-8")
+				w.Header().Set("Access-Control-Allow-Origin", "*")
+				w.Write(newsJSON)
+				return
+			}
+			newsJSON, err := json.Marshal(loadAllNews(false))
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			w.Write(newsJSON)
 			w.WriteHeader(http.StatusOK)
 			w.Header().Set("Content-Type", "application/json; charset=utf-8")
 			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Write(newsJSON)
 			return
 		}
 
@@ -89,7 +103,7 @@ func NewsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func loadAllNews() []model.News {
+func loadAllNews(available bool) []model.News {
 	ctx := context.Background()
 	client := utils.CreateClient(ctx)
 	defer client.Close()
@@ -97,6 +111,10 @@ func loadAllNews() []model.News {
 	var news_items []model.News
 
 	iter := client.Collection("news").Documents(ctx)
+
+	if available {
+		iter = client.Collection("news").Where("available", "==", true).Documents(ctx)
+	}
 	for {
 		doc, err := iter.Next()
 		if err == iterator.Done {
