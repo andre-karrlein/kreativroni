@@ -19,3 +19,8 @@ type VariationData struct {
 	Count   int                `json:"count"`
 	Results []ListingVariation `json:"results"`
 }
+
+type Variations struct {
+	Id         int         `json:"id"`
+	Variations []Variation `json:"variations"`
+}
