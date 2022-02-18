@@ -6,6 +6,7 @@ type Order struct {
 	Payment      string `json:"payment" firestore:"payment,omitempty"`
 	ProductName  string `json:"productName" firestore:"productName,omitempty"`
 	ProductId    string `json:"productId" firestore:"productId,omitempty"`
+	Variation    string `json:"variation" firestore:"variation,omitempty"`
 	Price        string `json:"price" firestore:"price,omitempty"`
 	Quantity     string `json:"quantity" firestore:"quantity,omitempty"`
 	Status       string `json:"status" firestore:"status,omitempty"`
