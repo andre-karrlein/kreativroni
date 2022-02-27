@@ -43,7 +43,7 @@ func ProductsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadProducts(language string) []model.Product {
-	b, err := utils.Etsy_request("https://openapi.etsy.com/v3/application/shops/31340310/listings/active")
+	b, err := utils.Etsy_request("https://openapi.etsy.com/v3/application/shops/31340310/listings/active?limit=100")
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -55,13 +55,14 @@ func loadProducts(language string) []model.Product {
 
 	var ids []string
 
+	println(len(listings.Results))
 	for _, listing := range listings.Results {
 		ids = append(ids, strconv.Itoa(listing.Id))
 	}
 
 	id_string := strings.Join(ids[:], ",")
 
-	url := "https://openapi.etsy.com/v3/application/listings/batch?includes=images&language=" + language + "&listing_ids=" + id_string
+	url := "https://openapi.etsy.com/v3/application/listings/batch?limit=100&includes=images&language=" + language + "&listing_ids=" + id_string
 	b, err = utils.Etsy_request(url)
 	if err != nil {
 		log.Println(err)
