@@ -32,6 +32,9 @@ func main() {
 			"https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
 		},
 		ThemeColor: "#3a8277",
+		RawHeaders: []string{
+			"<meta name='apple-itunes-app' content='app-id=1601515699, app-argument=myURL'>",
+		},
 		Env: app.Environment{
 			"PRODUCTS_KEY": os.Getenv("PRODUCTS_KEY"),
 		},
