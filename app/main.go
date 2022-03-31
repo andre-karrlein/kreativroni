@@ -14,6 +14,7 @@ func main() {
 	app.Route("/shop", &shop{})
 	app.Route("/about_me", &about{})
 	app.Route("/legal_notice", &legal_notice{})
+	app.Route("/aktion", &promo{})
 
 	app.RunWhenOnBrowser()
 

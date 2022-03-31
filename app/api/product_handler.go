@@ -55,7 +55,6 @@ func loadProducts(language string) []model.Product {
 
 	var ids []string
 
-	println(len(listings.Results))
 	for _, listing := range listings.Results {
 		ids = append(ids, strconv.Itoa(listing.Id))
 	}
