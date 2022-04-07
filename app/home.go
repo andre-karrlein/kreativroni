@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/maxence-charriere/go-app/v8/pkg/app"
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
 type home struct {
@@ -9,7 +9,7 @@ type home struct {
 }
 
 func (home *home) Render() app.UI {
-	return app.Body().Class("bg-gradient-to-r from-green-200 to-green-500 p-0 pt-5 md:p-8 md:py-10").Body(
+	return app.Div().Class("bg-gradient-to-r from-green-200 to-green-500 p-0 pt-5 md:p-8 md:py-10").Body(
 		&navbar{},
 		app.Div().Class("pt-0 md:pt-20").Body(
 			app.Figure().Class("bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl p-4 md:flex md:p-30").Body(
@@ -25,10 +25,4 @@ func (home *home) Render() app.UI {
 			),
 		),
 	)
-}
-
-func (home *home) OnMount(ctx app.Context) {
-	if ctx.AppUpdateAvailable {
-		ctx.Reload()
-	}
 }

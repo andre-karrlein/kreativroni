@@ -2,11 +2,9 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/andre-karrlein/kreativroni/app/api"
-	"github.com/maxence-charriere/go-app/v8/pkg/app"
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
 func main() {
@@ -18,7 +16,7 @@ func main() {
 
 	app.RunWhenOnBrowser()
 
-	http.Handle("/", &app.Handler{
+	err := app.GenerateStaticWebsite(".", &app.Handler{
 		Name:        "kreativroni.de",
 		Title:       "KreatiVroni",
 		Description: "Kreatives von Vroni",
@@ -41,14 +39,7 @@ func main() {
 		},
 	})
 
-	http.HandleFunc("/api/v1/product/variations", api.ProductVariationsHandler)
-	http.HandleFunc("/api/v1/product", api.ProductsHandler)
-	http.HandleFunc("/api/v1/order", api.OrderHandler)
-	http.HandleFunc("/api/v1/news", api.NewsHandler)
-	http.HandleFunc("/api/v1/sections", api.SectionsHandler)
-	http.HandleFunc("/api/v1/customer", api.CustomerHandler)
-
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 }

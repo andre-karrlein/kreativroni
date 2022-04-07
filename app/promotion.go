@@ -3,7 +3,7 @@ package main
 import (
 	"html"
 
-	"github.com/maxence-charriere/go-app/v8/pkg/app"
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
 type promo struct {
@@ -67,7 +67,7 @@ func (promo *promo) Render() app.UI {
 	promoText := "Mit diesem Produkt kannst du nachhaltige Blumengrüße verschicken. Neben der liebevollen von Hand gestalteten Schachtel ist ein Döschen mit Saatgut für eine Bienenwiese bzw. einen Schmetterlingstreff enthalten. Dadurch bereiten die Blumen nicht nur eine kurze Freude wie bei einem Blumenstrauß, sondern es gibt das ganze Jahr über etwas zu bestaunen."
 	promoTitle := "Blumengrüße 2.0"
 
-	return app.Body().Class("bg-gradient-to-r from-green-200 to-green-500 p-0 pt-5 md:p-8 md:py-10").Body(
+	return app.Div().Class("bg-gradient-to-r from-green-200 to-green-500 p-0 pt-5 md:p-8 md:py-10").Body(
 		&navbar{},
 		app.Div().Class("pt-0 md:pt-20").Body(
 			app.Figure().Class("bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl p-4 md:flex").Body(
@@ -101,10 +101,4 @@ func (promo *promo) Render() app.UI {
 			}),
 		),
 	)
-}
-
-func (promo *promo) OnMount(ctx app.Context) {
-	if ctx.AppUpdateAvailable {
-		ctx.Reload()
-	}
 }

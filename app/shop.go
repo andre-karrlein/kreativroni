@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/andre-karrlein/kreativroni/app/model"
-	"github.com/maxence-charriere/go-app/v8/pkg/app"
+	"github.com/maxence-charriere/go-app/v9/pkg/app"
 )
 
 type shop struct {
@@ -22,7 +22,7 @@ func (shop *shop) OnNav(ctx app.Context) {
 	// Launching a new goroutine:
 	ctx.Async(func() {
 		app_key := app.Getenv("PRODUCTS_KEY")
-		r, err := http.Get("/api/v1/product?lang=de&appkey=" + app_key)
+		r, err := http.Get("https://kreativroni.de/api/v1/product?lang=de&appkey=" + app_key)
 		if err != nil {
 			app.Log(err)
 			return
@@ -46,7 +46,7 @@ func (shop *shop) OnNav(ctx app.Context) {
 }
 
 func (shop *shop) Render() app.UI {
-	return app.Body().Class("bg-gradient-to-r from-green-200 to-green-500 p-0  pt-5 md:p-8 md:py-10").Body(
+	return app.Div().Class("bg-gradient-to-r from-green-200 to-green-500 p-0  pt-5 md:p-8 md:py-10").Body(
 		app.Div().Body(
 			&navbar{},
 		),
