@@ -21,13 +21,13 @@ func main() {
 		Title:       "KreatiVroni",
 		Description: "Kreatives von Vroni",
 		Icon: app.Icon{
-			Default:    "/web/images/logo_192.png", // Specify default favicon.
-			Large:      "/web/images/logo_512.png", // Specify large favicon
-			AppleTouch: "/web/images/logo_192.png", // Specify icon on IOS devices.
+			Default:    "/images/logo_192.png", // Specify default favicon.
+			Large:      "/images/logo_512.png", // Specify large favicon
+			AppleTouch: "/images/logo_192.png", // Specify icon on IOS devices.
 		},
 		Styles: []string{
 			"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css",
-			"/web/css/main.css",
+			"/css/main.css",
 			"https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css",
 		},
 		ThemeColor: "#3a8277",
