@@ -22,7 +22,7 @@ func (shop *shop) OnNav(ctx app.Context) {
 	// Launching a new goroutine:
 	ctx.Async(func() {
 		app_key := app.Getenv("PRODUCTS_KEY")
-		r, err := http.Get("https://kreativroni.de/api/v1/product?lang=de&appkey=" + app_key)
+		r, err := http.Get("https://api.kreativroni.de/api/v1/products?lang=de&appkey=" + app_key)
 		if err != nil {
 			app.Log(err)
 			return
