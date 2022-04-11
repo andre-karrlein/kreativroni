@@ -58,10 +58,12 @@ func (shop *shop) Render() app.UI {
 		app.Div().Class("flex flex-wrap gap-8 justify-center items-center min-h-screen w-full").Body(
 			app.If(shop.loading,
 				app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
-					app.Div().Class("animate-pulse flex-none w-44 relative"),
-					app.Div().Class("animate-pulse flex-auto max-h-full pl-6"),
-					app.Div().Class("animate-pulse flex space-x-3 mb-0 text-sm font-semibold").Body(
-						app.Div().Class("animate-pulse flex-auto flex space-x-3"),
+					app.Div().Class("animate-pulse flex-none w-44 relative").Body(
+						app.Div().Class("rounded-full bg-slate-200 h-10 w-10"),
+					),
+					app.Div().Class("animate-pulse flex-auto max-h-full pl-6").Body(
+						app.Div().Class("h-2 bg-slate-200 rounded"),
+						app.Div().Class("h-2 bg-slate-200 rounded"),
 					),
 				),
 			),
