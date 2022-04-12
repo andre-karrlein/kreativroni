@@ -16,11 +16,9 @@ type shop struct {
 	app.Compo
 
 	products []model.Product
-	loading  bool
 }
 
 func (shop *shop) OnNav(ctx app.Context) {
-	shop.loading = true
 	// Launching a new goroutine:
 	ctx.Async(func() {
 		app_key := app.Getenv("PRODUCTS_KEY")
@@ -43,52 +41,37 @@ func (shop *shop) OnNav(ctx app.Context) {
 		json.Unmarshal([]byte(sb), &products)
 
 		shop.products = products
-		shop.loading = false
 		shop.Update()
 	})
 }
 
 func (shop *shop) Render() app.UI {
-	shop.loading = true
-
 	return app.Div().Class("bg-gradient-to-r from-green-200 to-green-500 p-0  pt-5 md:p-8 md:py-10").Body(
 		app.Div().Body(
 			&navbar{},
 		),
 		app.Div().Class("flex flex-wrap gap-8 justify-center items-center min-h-screen w-full").Body(
-			app.If(shop.loading,
-				app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
-					app.Div().Class("animate-pulse flex-none w-44 relative").Body(
-						app.Div().Class("rounded-full bg-slate-200 h-10 w-10"),
-					),
-					app.Div().Class("animate-pulse flex-auto max-h-full pl-6").Body(
-						app.Div().Class("h-2 bg-slate-200 rounded"),
-						app.Div().Class("h-2 bg-slate-200 rounded"),
-					),
-				),
-			).Else(
-				app.Range(shop.products).Slice(func(i int) app.UI {
-					price := fmt.Sprintf("%.2f", (float64(shop.products[i].Price.Amount) / float64(shop.products[i].Price.Divisor)))
-					price = strings.Replace(price, ".", ",", -1)
+			app.Range(shop.products).Slice(func(i int) app.UI {
+				price := fmt.Sprintf("%.2f", (float64(shop.products[i].Price.Amount) / float64(shop.products[i].Price.Divisor)))
+				price = strings.Replace(price, ".", ",", -1)
 
-					return app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
-						app.Div().Class("flex-none w-44 relative").Body(
-							app.Img().Class("absolute inset-0 w-full h-full object-cover rounded-lg").Src(shop.products[i].Images[0].Url_570xN),
+				return app.Div().Class("flex max-w-md h-60 p-6 bg-white bg-opacity-40 backdrop-filter backdrop-blur-lg rounded-xl").Body(
+					app.Div().Class("flex-none w-44 relative").Body(
+						app.Img().Class("absolute inset-0 w-full h-full object-cover rounded-lg").Src(shop.products[i].Images[0].Url_570xN),
+					),
+					app.Div().Class("flex-auto max-h-full pl-6").Body(
+						app.Div().Class("flex flex-wrap items-baseline").Body(
+							app.H1().Class("w-full flex-none font-semibold mb-2.5 word break-words").Text(html.UnescapeString(shop.products[i].Title)),
+							app.Div().Class("w-full flex-none mt-2 order-1 text-3xl font-bold text-pink-400").Text(price+" "+strings.Replace(shop.products[i].Price.Currency_Code, "EUR", "€", 1)),
 						),
-						app.Div().Class("flex-auto max-h-full pl-6").Body(
-							app.Div().Class("flex flex-wrap items-baseline").Body(
-								app.H1().Class("w-full flex-none font-semibold mb-2.5 word break-words").Text(html.UnescapeString(shop.products[i].Title)),
-								app.Div().Class("w-full flex-none mt-2 order-1 text-3xl font-bold text-pink-400").Text(price+" "+strings.Replace(shop.products[i].Price.Currency_Code, "EUR", "€", 1)),
-							),
-							app.Div().Class("flex space-x-3 mb-0 text-sm font-semibold").Body(
-								app.Div().Class("flex-auto flex space-x-3").Body(
-									app.A().Class("h-8 w-full flex items-center justify-center rounded-full text-black bg-pink-400").Href(shop.products[i].Url).Text("Zum Produkt"),
-								),
+						app.Div().Class("flex space-x-3 mb-0 text-sm font-semibold").Body(
+							app.Div().Class("flex-auto flex space-x-3").Body(
+								app.A().Class("h-8 w-full flex items-center justify-center rounded-full text-black bg-pink-400").Href(shop.products[i].Url).Text("Zum Produkt"),
 							),
 						),
-					)
-				}),
-			),
+					),
+				)
+			}),
 		),
 	)
 }
