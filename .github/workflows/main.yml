@@ -23,7 +23,7 @@ jobs:
       run: go build -o build/app ./app
 
     - name: Generate Website
-      run: cd build && export PRODUCTS_KEY=${{ secrets.PRODUCTS_KEY }} && ./app && rm ./app && for file in *.html; do     mv "$file" "${file%%.html}"; done;
+      run: cd build && export PRODUCTS_KEY=${{ secrets.PRODUCTS_KEY }} && ./app && rm ./app
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
