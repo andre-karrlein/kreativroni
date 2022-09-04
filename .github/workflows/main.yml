@@ -37,15 +37,15 @@ jobs:
 
     - name: Deploy content to S3 bucket
       run: |
-        aws s3 cp ./build/web/* s3://kreativroni.de/web. &&\
-        aws s3 cp ./build/*.js s3://kreativroni.de &&\
-        aws s3 cp ./build/app.css s3://kreativroni.de &&\
-        aws s3 cp ./build/manifest.webmanifest s3://kreativroni.de
+        aws s3 cp ./build/web/* s3://kreativroni.de/web/. &&\
+        aws s3 cp ./build/*.js s3://kreativroni.de/. &&\
+        aws s3 cp ./build/app.css s3://kreativroni.de/. &&\
+        aws s3 cp ./build/manifest.webmanifest s3://kreativroni.de/.
 
     - name: Deploy sites to S3 bucket
       run: |
-        aws s3 cp ./build/index s3://kreativroni.de --content-type "text/html" &&\
-        aws s3 cp ./build/shop s3://kreativroni.de --content-type "text/html" &&\
-        aws s3 cp ./build/fashion s3://kreativroni.de --content-type "text/html" &&\
-        aws s3 cp ./build/about_me s3://kreativroni.de --content-type "text/html" &&\
-        aws s3 cp ./build/legal_notice s3://kreativroni.de --content-type "text/html"
+        aws s3 cp ./build/index s3://kreativroni.de/. --content-type "text/html" &&\
+        aws s3 cp ./build/shop s3://kreativroni.de/. --content-type "text/html" &&\
+        aws s3 cp ./build/fashion s3://kreativroni.de/. --content-type "text/html" &&\
+        aws s3 cp ./build/about_me s3://kreativroni.de/. --content-type "text/html" &&\
+        aws s3 cp ./build/legal_notice s3://kreativroni.de/. --content-type "text/html"
