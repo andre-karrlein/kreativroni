@@ -16,12 +16,13 @@ func (navbar *navbar) Render() app.UI {
 			),
 		),
 		app.Div().Class("items-center py-8 md:py-0 md:space-x-8 flex flex-col md:flex-row").Body(
-			app.A().Class("text-black hover:text-pink-300").Href("/shop.html").Text("Shop"),
+			app.A().Class("text-black hover:text-pink-300").Href("/shop").Text("Shop"),
+			app.A().Class("text-black hover:text-pink-300").Href("/fashion").Text("Fashion"),
 			app.A().Class("text-black hover:text-pink-300").Href("https://www.etsy.com/de/shop/kreatiVroni").Text("Etsy"),
 			app.A().Class("text-black hover:text-pink-300").Href("https://www.instagram.com/kreativroni/?hl=de").Text("Instagram"),
-			app.A().Class("text-black hover:text-pink-300").Href("/about_me.html").Text("Über mich"),
+			app.A().Class("text-black hover:text-pink-300").Href("/about_me").Text("Über mich"),
 			app.A().Class("text-black hover:text-pink-300").Href("mailto:kreativroni@gmail.com").Text("Kontakt"),
-			app.A().Class("text-black hover:text-pink-300").Href("/legal_notice.html").Text("Impressum"),
+			app.A().Class("text-black hover:text-pink-300").Href("/legal_notice").Text("Impressum"),
 		),
 	)
 }

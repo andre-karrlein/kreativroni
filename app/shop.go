@@ -41,7 +41,6 @@ func (shop *shop) OnNav(ctx app.Context) {
 		json.Unmarshal([]byte(sb), &products)
 
 		shop.products = products
-		shop.Update()
 	})
 }
 

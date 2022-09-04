@@ -9,10 +9,11 @@ import (
 
 func main() {
 	app.Route("/", &home{})
-	app.Route("/shop.html", &shop{})
-	app.Route("/about_me.html", &about{})
-	app.Route("/legal_notice.html", &legal_notice{})
-	app.Route("/aktion.html", &promo{})
+	app.Route("/shop", &shop{})
+	app.Route("/fashion", &fashion{})
+	app.Route("/about_me", &about{})
+	app.Route("/legal_notice", &legal_notice{})
+	//app.Route("/aktion", &promo{})
 
 	app.RunWhenOnBrowser()
 

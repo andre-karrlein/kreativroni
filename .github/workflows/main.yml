@@ -32,5 +32,16 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1
 
-    - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./build/ s3://kreativroni.de --delete
+    - name: Remove html extensions
+      run: find -type f -name '*.html' | while read f; do mv "$f" "${f%.html}"; done
+
+    - name: Deploy content to S3 bucket
+      run: aws s3 cp ./build/web s3://kreativroni.de && aws s3 cp ./build/*.js s3://kreativroni.de && aws s3 cp ./build/app.css s3://kreativroni.de && aws s3 cp ./build/manifest.webmanifest s3://kreativroni.de
+
+    - name: Deploy sites to S3 bucket
+      run: |
+        aws s3 cp ./build/index s3://kreativroni.de --content-type "text/html" \
+        aws s3 cp ./build/shop s3://kreativroni.de --content-type "text/html" \
+        aws s3 cp ./build/fashion s3://kreativroni.de --content-type "text/html" \
+        aws s3 cp ./build/about_me s3://kreativroni.de --content-type "text/html" \
+        aws s3 cp ./build/legal_notice s3://kreativroni.de --content-type "text/html"
