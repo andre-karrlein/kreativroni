@@ -41,6 +41,7 @@ func (shop *shop) OnNav(ctx app.Context) {
 		json.Unmarshal([]byte(sb), &products)
 
 		shop.products = products
+		shop.Update()
 	})
 }
 
@@ -50,6 +51,9 @@ func (shop *shop) Render() app.UI {
 			&navbar{},
 		),
 		app.Div().Class("flex flex-wrap gap-8 justify-center items-center min-h-screen w-full").Body(
+			app.If(len(shop.products) == 0,
+				app.Div().ID("loading"),
+			),
 			app.Range(shop.products).Slice(func(i int) app.UI {
 				price := fmt.Sprintf("%.2f", (float64(shop.products[i].Price.Amount) / float64(shop.products[i].Price.Divisor)))
 				price = strings.Replace(price, ".", ",", -1)
