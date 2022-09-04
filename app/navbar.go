@@ -12,7 +12,7 @@ func (navbar *navbar) Render() app.UI {
 	return app.Nav().Class("container flex justify-around p-10 mx-auto bg-opacity-0 rounded-xl flex-col md:flex-row").Body(
 		app.Div().Class("flex items-center max-h-4 max-w-sm").Body(
 			app.A().Href("/").Body(
-				app.Img().Src("/web/images/Logo2.PNG"),
+				app.Img().Src("/web/Logo2.PNG"),
 			),
 		),
 		app.Div().Class("items-center py-8 md:py-0 md:space-x-8 flex flex-col md:flex-row").Body(
