@@ -21,7 +21,7 @@ func (home *home) Render() app.UI {
 						),
 					),
 				),
-				app.Img().Class("w-32 h-32 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto").Src("/web/Haaand.PNG"),
+				app.Img().Class("w-32 h-32 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto").Src("/web/Haaand.png"),
 			),
 		),
 	)
