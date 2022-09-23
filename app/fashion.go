@@ -8,7 +8,7 @@ type fashion struct {
 	app.Compo
 }
 
-func (fashion *fashion) OnMount(ctx app.Context) {
+func (fashion *fashion) OnPreRender(ctx app.Context) {
 	ctx.Navigate("https://www.spreadshirt.de/shop/user/kreativroni+-+kreatives+von+vroni")
 }
 
