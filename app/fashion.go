@@ -10,6 +10,7 @@ type fashion struct {
 
 func (fashion *fashion) OnPreRender(ctx app.Context) {
 	ctx.Navigate("https://www.spreadshirt.de/shop/user/kreativroni+-+kreatives+von+vroni")
+	ctx.Navigate("/")
 }
 
 func (fashion *fashion) Render() app.UI {
