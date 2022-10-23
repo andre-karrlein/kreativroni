@@ -1,5 +1,11 @@
-@import url('/web/Poppins-Regular.woff2');
-@import url("/web/KaushanScript-Regular.woff2");
+@font-face {
+  font-family: 'Poppins';
+  src: url('/web/Poppins-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Kaushan Script';
+  src: url('/web/KaushanScript-Regular.woff2') format('woff2');
+}
 *{
   font-family: 'Poppins',sans-serif;
 }
